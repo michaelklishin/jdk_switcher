@@ -5,10 +5,9 @@ set -e
 COMMAND="$1"
 JDK="$2"
 
-DEBUG=0
 RETVAL=0
 
-if uname -a | grep x86_64 ; then
+if uname -a | grep x86_64 >/dev/null ; then
     ARCH_SUFFIX=amd64
 else
     ARCH_SUFFIX=i386
@@ -38,6 +37,7 @@ switch_to_openjdk7 () {
 }
 
 switch_to_oraclejdk7 () {
+    # TODO
     RETVAL=0
 }
 
@@ -59,6 +59,12 @@ switch_jdk () {
             ;;
         jdk7)
             switch_to_openjdk7
+            ;;
+        default)
+            # will be OpenJDK 7 as soon as multiple JDKs support
+            # on travis-ci.org is finished, documented and announced. For now
+            # we have to stick to OpenJDK 6 for compatibility for a few more weeks. MK.
+            switch_to_openjdk6
             ;;
     esac
 }
