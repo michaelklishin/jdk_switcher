@@ -11,11 +11,21 @@ may be useful in other environments, too.
 Install one or more JDKs that register themselves with the `update-java-alternatives` tools by
 installing a `.jinfo` file under `/usr/lib/jvm`.
 
-Then copy `jdk_switcher.sh` in the repository root anywhere on the `PATH` and pass it two arguments:
+Then copy `jdk_switcher.sh` in the repository root anywhere on the `PATH` and pass it two arguments,
+a command and the JDK to use:
 
 ``` bash
 ./jdk_switcher.sh use openjdk7
+
+./jdk_switcher.sh home oraclejdk7
 ```
+
+### Commands
+
+ * `use`: switches active JDK (updates `PATH` alternatives and export `JAVA_HOME`)
+ * `home`: prints `JAVA_HOME` value for the specified JDK. Does not change anything in the environment.
+
+### JDK aliases
 
 Supported aliases are:
 

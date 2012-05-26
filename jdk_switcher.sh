@@ -48,6 +48,21 @@ switch_to_oraclejdk7 () {
     RETVAL=0
 }
 
+print_home_of_openjdk6 () {
+    echo "$OPENJDK6_JAVA_HOME"
+    RETVAL=0
+}
+
+print_home_of_openjdk7 () {
+    echo "$OPENJDK7_JAVA_HOME"
+    RETVAL=0
+}
+
+print_home_of_oraclejdk7 () {
+    echo "$ORACLEJDK7_JAVA_HOME"
+    RETVAL=0
+}
+
 switch_to_sunjdk6 () {
     echo "Sun JDK 6 is not supported. It will be EOL in November 2012, consider moving on to OpenJDK 7 or Oracle JDK 7." >&2
     RETVAL=1
@@ -135,9 +150,93 @@ switch_jdk () {
     esac
 }
 
+
+print_java_home () {
+    if echo "$JDK" | grep gcj > /dev/null ; then
+        echo "We do not support GCJ. I mean, come on. Are you Richard Stallman?" >&2;
+        exit 1;
+    fi
+
+     case "$JDK" in
+        openjdk6)
+            print_home_of_openjdk6
+            ;;
+        openjdk1.6)
+            print_home_of_openjdk6
+            ;;
+        openjdk1.6.0)
+            print_home_of_openjdk6
+            ;;
+        jdk6)
+            print_home_of_openjdk6
+            ;;
+        1.6.0)
+            print_home_of_openjdk6
+            ;;
+        1.6)
+            print_home_of_openjdk6
+            ;;
+        6.0)
+            print_home_of_openjdk6
+            ;;
+        openjdk7)
+            print_home_of_openjdk7
+            ;;
+        jdk7)
+            print_home_of_openjdk7
+            ;;
+        1.7.0)
+            print_home_of_openjdk7
+            ;;
+        1.7)
+            print_home_of_openjdk7
+            ;;
+        7.0)
+            print_home_of_openjdk7
+            ;;
+        oraclejdk7)
+            print_home_of_oraclejdk7
+            ;;
+        oraclejdk1.7)
+            print_home_of_oraclejdk7
+            ;;
+        oraclejdk1.7.0)
+            print_home_of_oraclejdk7
+            ;;
+        oracle7)
+            print_home_of_oraclejdk7
+            ;;
+        oracle1.7.0)
+            print_home_of_oraclejdk7
+            ;;
+        oracle7.0)
+            print_home_of_oraclejdk7
+            ;;
+        oracle)
+            print_home_of_oraclejdk7
+            ;;
+        sunjdk7)
+            print_home_of_oraclejdk7
+            ;;
+        sun7)
+            print_home_of_oraclejdk7
+            ;;
+        sun)
+            print_home_of_oraclejdk7
+            ;;
+        default)
+            print_home_of_openjdk6
+            ;;
+    esac
+}
+
+
 case "$COMMAND" in
     use)
         switch_jdk
+        ;;
+    home)
+        print_java_home
         ;;
     *)
         echo "Usage: $0 {use}" >&2
