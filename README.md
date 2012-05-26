@@ -30,7 +30,7 @@ improvements.
 
 ## How does it work?
 
-The switcher uses [update-java-alternatives]() under the hood to update `/etc/alternatives/*` symlinks for
+The switcher uses [update-java-alternatives](http://manpages.ubuntu.com/manpages/hardy/man8/update-java-alternatives.8.html) (see also [this intro](http://wiki.debian.org/Java/#Java_and_Debian)) under the hood to update `/etc/alternatives/*` symlinks for
 `java`, `javac`, `javap` and other JDK tools. As such, the switcher itself primary handles aliasing of
 JDKs (`update-java-alternatives` aliases are too hard to remember) and updating `JAVA_HOME` value.
 
