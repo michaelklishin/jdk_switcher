@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 COMMAND="$1"
 JDK="$2"
 
