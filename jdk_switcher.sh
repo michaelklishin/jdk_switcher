@@ -54,6 +54,11 @@ switch_to_sunjdk6 () {
 }
 
 switch_jdk () {
+    if echo "$JDK" | grep gcj > /dev/null ; then
+        echo "We do not support GCJ. I mean, come on. Are you Richard Stallman?" >&2;
+        exit 1;
+    fi
+
      case "$JDK" in
         openjdk6)
             switch_to_openjdk6
@@ -70,6 +75,9 @@ switch_jdk () {
         1.6.0)
             switch_to_openjdk6
             ;;
+        1.6)
+            switch_to_openjdk6
+            ;;
         6.0)
             switch_to_openjdk6
             ;;
@@ -80,6 +88,9 @@ switch_jdk () {
             switch_to_openjdk7
             ;;
         1.7.0)
+            switch_to_openjdk7
+            ;;
+        1.7)
             switch_to_openjdk7
             ;;
         7.0)
@@ -126,7 +137,6 @@ switch_jdk () {
 
 case "$COMMAND" in
     use)
-        echo -n "Switching to $JDK...\n"
         switch_jdk
         ;;
     *)
