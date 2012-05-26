@@ -20,6 +20,11 @@ OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
 OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk-$ARCH_SUFFIX"
 OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk-$ARCH_SUFFIX"
 
+# java::oraclejdk7 recipe in the github.com/travis-ci/travis-cookbooks
+# takes care of this alias. We take it for granted here. MK.
+ORACLEJDK7_UJA_ALIAS="java-7-oracle"
+ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle"
+
 UJA="update-java-alternatives"
 
 switch_to_openjdk6 () {
@@ -37,7 +42,9 @@ switch_to_openjdk7 () {
 }
 
 switch_to_oraclejdk7 () {
-    # TODO
+    echo "Switching to Oracle JDK7 ($ORACLEJDK7_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK7_JAVA_HOME"
+    sudo $UJA --set "$ORACLEJDK7_UJA_ALIAS"
+    export JAVA_HOME="$ORACLEJDK7_JAVA_HOME"
     RETVAL=0
 }
 
@@ -51,7 +58,19 @@ switch_jdk () {
         openjdk6)
             switch_to_openjdk6
             ;;
+        openjdk1.6)
+            switch_to_openjdk6
+            ;;
+        openjdk1.6.0)
+            switch_to_openjdk6
+            ;;
         jdk6)
+            switch_to_openjdk6
+            ;;
+        1.6.0)
+            switch_to_openjdk6
+            ;;
+        6.0)
             switch_to_openjdk6
             ;;
         openjdk7)
@@ -59,6 +78,42 @@ switch_jdk () {
             ;;
         jdk7)
             switch_to_openjdk7
+            ;;
+        1.7.0)
+            switch_to_openjdk7
+            ;;
+        7.0)
+            switch_to_openjdk7
+            ;;
+        oraclejdk7)
+            switch_to_oraclejdk7
+            ;;
+        oraclejdk1.7)
+            switch_to_oraclejdk7
+            ;;
+        oraclejdk1.7.0)
+            switch_to_oraclejdk7
+            ;;
+        oracle7)
+            switch_to_oraclejdk7
+            ;;
+        oracle1.7.0)
+            switch_to_oraclejdk7
+            ;;
+        oracle7.0)
+            switch_to_oraclejdk7
+            ;;
+        oracle)
+            switch_to_oraclejdk7
+            ;;
+        sunjdk7)
+            switch_to_oraclejdk7
+            ;;
+        sun7)
+            switch_to_oraclejdk7
+            ;;
+        sun)
+            switch_to_oraclejdk7
             ;;
         default)
             # will be OpenJDK 7 as soon as multiple JDKs support
