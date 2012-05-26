@@ -28,6 +28,26 @@ both will use OpenJDK 7 by default. Time to upgrade, JDK 7 is backwards compatib
 improvements.
 
 
+## How does it work?
+
+The switcher uses [update-java-alternatives]() under the hood to update `/etc/alternatives/*` symlinks for
+`java`, `javac`, `javap` and other JDK tools. As such, the switcher itself primary handles aliasing of
+JDKs (`update-java-alternatives` aliases are too hard to remember) and updating `JAVA_HOME` value.
+
+
+## Why was this tool necessary?
+
+`JAVA_HOME` updates is the key reason for it to exist: `update-java-alternatives` and related Debian tools
+in general do a great job of managing alternatives but won't touch or even define `JAVA_HOME`. Even though most
+JVM ecosystem tools (from Leiningen to Elastic Search, HBase and Cassandra) will
+try hard to detect `JAVA_HOME` value but unfortunately, Maven 3 does it in a way that is heavily biased
+towards OpenJDK 6.
+
+For travis-ci.org to support multiple JDKs for Clojure, Groovy, Java, Scala and JRuby, it is crucially
+important that all the tools we provision will use the JDK version specified for a build. We cannot let
+Maven always use OpenJDK 6.
+
+
 
 ## License & Copyright
 
