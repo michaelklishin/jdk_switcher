@@ -91,70 +91,13 @@ print_java_home()
     fi
 
     case "$JDK" in
-        openjdk6)
+        openjdk6|openjdk1.6|openjdk1.6.0|jdk6|1.6.0|1.6|6.0)
             print_home_of_openjdk6
             ;;
-        openjdk1.6)
-            print_home_of_openjdk6
-            ;;
-        openjdk1.6.0)
-            print_home_of_openjdk6
-            ;;
-        jdk6)
-            print_home_of_openjdk6
-            ;;
-        1.6.0)
-            print_home_of_openjdk6
-            ;;
-        1.6)
-            print_home_of_openjdk6
-            ;;
-        6.0)
-            print_home_of_openjdk6
-            ;;
-        openjdk7)
+        openjdk7|jdk7|1.7.0|1.7|7.0)
             print_home_of_openjdk7
             ;;
-        jdk7)
-            print_home_of_openjdk7
-            ;;
-        1.7.0)
-            print_home_of_openjdk7
-            ;;
-        1.7)
-            print_home_of_openjdk7
-            ;;
-        7.0)
-            print_home_of_openjdk7
-            ;;
-        oraclejdk7)
-            print_home_of_oraclejdk7
-            ;;
-        oraclejdk1.7)
-            print_home_of_oraclejdk7
-            ;;
-        oraclejdk1.7.0)
-            print_home_of_oraclejdk7
-            ;;
-        oracle7)
-            print_home_of_oraclejdk7
-            ;;
-        oracle1.7.0)
-            print_home_of_oraclejdk7
-            ;;
-        oracle7.0)
-            print_home_of_oraclejdk7
-            ;;
-        oracle)
-            print_home_of_oraclejdk7
-            ;;
-        sunjdk7)
-            print_home_of_oraclejdk7
-            ;;
-        sun7)
-            print_home_of_oraclejdk7
-            ;;
-        sun)
+        oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
             print_home_of_oraclejdk7
             ;;
         default)
