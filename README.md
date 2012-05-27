@@ -11,13 +11,15 @@ may be useful in other environments, too.
 Install one or more JDKs that register themselves with the `update-java-alternatives` tools by
 installing a `.jinfo` file under `/usr/lib/jvm`.
 
-Then copy `jdk_switcher.sh` in the repository root anywhere on the `PATH` and pass it two arguments,
+Then source `jdk_switcher.sh` in the repository root and use the `jdk_switcher` function it two arguments,
 a command and the JDK to use:
 
 ``` bash
-./jdk_switcher.sh use openjdk7
+. ./jdk_switcher.sh
 
-./jdk_switcher.sh home oraclejdk7
+jdk_switcher  use openjdk7
+
+jdk_switcher home oraclejdk7
 ```
 
 ### Commands
@@ -43,6 +45,8 @@ improvements.
 The switcher uses [update-java-alternatives](http://manpages.ubuntu.com/manpages/hardy/man8/update-java-alternatives.8.html) (see also [this intro](http://wiki.debian.org/Java/#Java_and_Debian)) under the hood to update `/etc/alternatives/*` symlinks for
 `java`, `javac`, `javap` and other JDK tools. As such, the switcher itself primary handles aliasing of
 JDKs (`update-java-alternatives` aliases are too hard to remember) and updating `JAVA_HOME` value.
+
+`JAVA_HOME` changes is the reason why `jdk_switcher` is implemented as a function.
 
 
 ## Why was this tool necessary?

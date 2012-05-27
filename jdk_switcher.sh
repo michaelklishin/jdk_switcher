@@ -1,8 +1,5 @@
 #!/bin/sh
 
-COMMAND="$1"
-JDK="$2"
-
 RETVAL=0
 
 if uname -a | grep x86_64 >/dev/null ; then
@@ -72,7 +69,7 @@ switch_jdk () {
         exit 1;
     fi
 
-     case "$JDK" in
+    case "$JDK" in
         openjdk6)
             switch_to_openjdk6
             ;;
@@ -155,7 +152,7 @@ print_java_home () {
         exit 1;
     fi
 
-     case "$JDK" in
+    case "$JDK" in
         openjdk6)
             print_home_of_openjdk6
             ;;
@@ -229,18 +226,23 @@ print_java_home () {
 }
 
 
-case "$COMMAND" in
-    use)
-        switch_jdk
-        ;;
-    home)
-        print_java_home
-        ;;
-    *)
-        echo "Usage: $0 {use|home} [ JDK version ]" >&2
-        RETVAL=1
-        ;;
-esac
+jdk_switcher () {
+    COMMAND="$1"
+    JDK="$2"
+
+    case "$COMMAND" in
+        use)
+            switch_jdk
+            ;;
+        home)
+            print_java_home
+            ;;
+        *)
+            echo "Usage: $0 {use|home} [ JDK version ]" >&2
+            RETVAL=1
+            ;;
+    esac
 
 
-exit $RETVAL
+    return $RETVAL
+}
