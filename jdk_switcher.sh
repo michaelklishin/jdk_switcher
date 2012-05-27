@@ -237,7 +237,7 @@ case "$COMMAND" in
         print_java_home
         ;;
     *)
-        echo "Usage: $0 {use|home}" >&2
+        echo "Usage: $0 {use|home} [ JDK version ]" >&2
         RETVAL=1
         ;;
 esac
