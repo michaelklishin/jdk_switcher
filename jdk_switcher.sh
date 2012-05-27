@@ -64,7 +64,10 @@ switch_jdk()
         openjdk6|openjdk1.6|openjdk1.6.0|jdk6|1.6.0|1.6|6.0)
             switch_to_openjdk6
             ;;
-        openjdk7|jdk7|1.7.0|1.7|7.0|oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
+        openjdk7|jdk7|1.7.0|1.7|7.0)
+            switch_to_openjdk7
+            ;;
+        oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
             switch_to_oraclejdk7
             ;;
         default)
