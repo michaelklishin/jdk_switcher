@@ -71,10 +71,7 @@ switch_jdk()
             switch_to_oraclejdk7
             ;;
         default)
-            # will be OpenJDK 7 as soon as multiple JDKs support
-            # on travis-ci.org is finished, documented and announced. For now
-            # we have to stick to OpenJDK 6 for compatibility for a few more weeks. MK.
-            switch_to_openjdk6
+            switch_to_openjdk7
             ;;
     esac
 }
@@ -101,7 +98,7 @@ print_java_home()
             print_home_of_oraclejdk7
             ;;
         default)
-            print_home_of_openjdk6
+            print_home_of_openjdk7
             ;;
     esac
 }
