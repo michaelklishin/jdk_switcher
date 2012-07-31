@@ -31,9 +31,9 @@ jdk_switcher home oraclejdk7
 
 Supported aliases are:
 
- * `openjdk7` or `jdk7` or `default`
+ * `oraclejdk7` or `jdk7` or `default`
+ * `openjdk7`
  * `openjdk6` or `jdk6`
- * `oraclejdk7`
 
 Sun JDK 6 will be EOL in November 2012 and is not supported. Ubuntu 12.04 and next Fedora release
 both will use OpenJDK 7 by default. Time to upgrade, JDK 7 is backwards compatible and packed with

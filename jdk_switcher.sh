@@ -71,7 +71,7 @@ switch_jdk()
             switch_to_oraclejdk7
             ;;
         default)
-            switch_to_openjdk7
+            switch_to_oraclejdk7
             ;;
     esac
 }
