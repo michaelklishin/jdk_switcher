@@ -7,16 +7,31 @@ else
 fi
 
 # UJA is for update-java-alternatives
-OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk"
-OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+if [[ -d "/usr/lib/jvm/java-6-openjdk-$ARCH_SUFFIX" ]] ; then
+    OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk-$ARCH_SUFFIX"
+    OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk-$ARCH_SUFFIX"
+else
+    OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk"
+    OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+fi
 
-OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk-$ARCH_SUFFIX"
-OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk-$ARCH_SUFFIX"
+if [[ -d "/usr/lib/jvm/java-7-openjdk-$ARCH_SUFFIX" ]] ; then
+    OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk-$ARCH_SUFFIX"
+    OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk-$ARCH_SUFFIX"
+else
+    OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk"
+    OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk"
+fi
 
 # java::oraclejdk7 recipe in the github.com/travis-ci/travis-cookbooks
 # takes care of this alias. We take it for granted here. MK.
-ORACLEJDK7_UJA_ALIAS="java-7-oracle"
-ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle"
+if [[ -d "/usr/lib/jvm/java-7-oracle-$ARCH_SUFFIX" ]] ; then
+    ORACLEJDK7_UJA_ALIAS="java-7-oracle-$ARCH_SUFFIX"
+    ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle-$ARCH_SUFFIX"
+else
+    ORACLEJDK7_UJA_ALIAS="java-7-oracle"
+    ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle"
+fi
 
 UJA="update-java-alternatives"
 
