@@ -23,7 +23,7 @@ else
     OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk"
 fi
 
-# java::oraclejdk7 recipe in the github.com/travis-ci/travis-cookbooks
+# The java::oraclejdk7 recipe from github.com/travis-ci/travis-cookbooks
 # takes care of this alias. We take it for granted here. MK.
 if [[ -d "/usr/lib/jvm/java-7-oracle-$ARCH_SUFFIX" ]] ; then
     ORACLEJDK7_UJA_ALIAS="java-7-oracle-$ARCH_SUFFIX"
@@ -31,6 +31,16 @@ if [[ -d "/usr/lib/jvm/java-7-oracle-$ARCH_SUFFIX" ]] ; then
 else
     ORACLEJDK7_UJA_ALIAS="java-7-oracle"
     ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle"
+fi
+
+# The java::oraclejdk8 recipe from github.com/travis-ci/travis-cookbooks
+# takes care of this alias. We take it for granted here. MK.
+if [[ -d "/usr/lib/jvm/java-8-oracle-$ARCH_SUFFIX" ]] ; then
+    ORACLEJDK8_UJA_ALIAS="java-8-oracle-$ARCH_SUFFIX"
+    ORACLEJDK8_JAVA_HOME="/usr/lib/jvm/java-8-oracle-$ARCH_SUFFIX"
+else
+    ORACLEJDK8_UJA_ALIAS="java-8-oracle"
+    ORACLEJDK8_JAVA_HOME="/usr/lib/jvm/java-8-oracle"
 fi
 
 UJA="update-java-alternatives"
@@ -53,6 +63,12 @@ switch_to_oraclejdk7 () {
     export JAVA_HOME="$ORACLEJDK7_JAVA_HOME"
 }
 
+switch_to_oraclejdk8 () {
+    echo "Switching to Oracle JDK8 ($ORACLEJDK8_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK8_JAVA_HOME"
+    sudo $UJA --set "$ORACLEJDK8_UJA_ALIAS"
+    export JAVA_HOME="$ORACLEJDK8_JAVA_HOME"
+}
+
 print_home_of_openjdk6 () {
     echo "$OPENJDK6_JAVA_HOME"
 }
@@ -63,6 +79,10 @@ print_home_of_openjdk7 () {
 
 print_home_of_oraclejdk7 () {
     echo "$ORACLEJDK7_JAVA_HOME"
+}
+
+print_home_of_oraclejdk8 () {
+    echo "$ORACLEJDK8_JAVA_HOME"
 }
 
 switch_to_sunjdk6 () {
@@ -84,6 +104,9 @@ switch_jdk()
             ;;
         oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
             switch_to_oraclejdk7
+            ;;
+        oraclejdk8|oraclejdk1.8|oraclejdk1.8.0|oracle8|oracle1.8.0|oracle8.0)
+            switch_to_oraclejdk8
             ;;
         default)
             switch_to_oraclejdk7
@@ -111,6 +134,9 @@ print_java_home()
             ;;
         oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
             print_home_of_oraclejdk7
+            ;;
+        oraclejdk8|oraclejdk1.8|oraclejdk1.8.0|oracle8|oracle1.8.0|oracle8.0)
+            print_home_of_oraclejdk8
             ;;
         default)
             print_home_of_openjdk7
