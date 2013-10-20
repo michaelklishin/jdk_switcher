@@ -85,15 +85,23 @@ print_home_of_oraclejdk8 () {
     echo "$ORACLEJDK8_JAVA_HOME"
 }
 
-switch_to_sunjdk6 () {
-    echo "Sun JDK 6 is not supported. It will be EOL in November 2012, consider moving on to OpenJDK 7 or Oracle JDK 7." >&2
+warn_sunjdk6_eol () {
+    echo "Sun/Oracle JDK 6 is EOL since November 2012, and is no longer supported. Please consider upgrading..." >&2
+}
+
+warn_jdk_not_known () {
+    echo "Sorry, but JDK '$1' is not known." >&2
+}
+
+warn_gcj_user () {
+    echo "We do not support GCJ. I mean, come on. Are you Richard Stallman?" >&2
 }
 
 switch_jdk()
 {
     case "${1:-default}" in
         *gcj*)
-            echo "We do not support GCJ. I mean, come on. Are you Richard Stallman?" >&2;
+            warn_gcj_user
             false
             ;;
         openjdk6|openjdk1.6|openjdk1.6.0|jdk6|1.6.0|1.6|6.0)
@@ -101,6 +109,10 @@ switch_jdk()
             ;;
         openjdk7|jdk7|1.7.0|1.7|7.0)
             switch_to_openjdk7
+            ;;
+        oraclejdk6|oraclejdk1.6|oraclejdk1.6.0|oracle6|oracle1.6.0|oracle6.0|sunjdk6|sun6)
+            warn_sunjdk6_eol
+            false
             ;;
         oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
             switch_to_oraclejdk7
@@ -111,6 +123,10 @@ switch_jdk()
         default)
             switch_to_oraclejdk7
             ;;
+        *)
+            warn_jdk_not_known "$1"
+            false
+            ;;
     esac
 }
 
@@ -120,17 +136,18 @@ print_java_home()
     typeset JDK
     JDK="$1"
 
-    if echo "$JDK" | grep gcj > /dev/null ; then
-        echo "We do not support GCJ. I mean, come on. Are you Richard Stallman?" >&2;
-        exit 1;
-    fi
-
     case "$JDK" in
+        *gcj*)
+            warn_gcj_user
+            ;;
         openjdk6|openjdk1.6|openjdk1.6.0|jdk6|1.6.0|1.6|6.0)
             print_home_of_openjdk6
             ;;
         openjdk7|jdk7|1.7.0|1.7|7.0)
             print_home_of_openjdk7
+            ;;
+        oraclejdk6|oraclejdk1.6|oraclejdk1.6.0|oracle6|oracle1.6.0|oracle6.0|sunjdk6|sun6)
+            warn_sunjdk6_eol
             ;;
         oraclejdk7|oraclejdk1.7|oraclejdk1.7.0|oracle7|oracle1.7.0|oracle7.0|oracle|sunjdk7|sun7|sun)
             print_home_of_oraclejdk7
@@ -141,13 +158,16 @@ print_java_home()
         default)
             print_home_of_openjdk7
             ;;
+        *)
+            warn_jdk_not_known "$JDK"
+            ;;
     esac
 }
 
 
 jdk_switcher()
 {
-    typeset COMMAND JDK 
+    typeset COMMAND JDK
     COMMAND="$1"
     JDK="$2"
 
