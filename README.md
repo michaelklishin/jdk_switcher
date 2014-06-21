@@ -31,6 +31,7 @@ jdk_switcher home oraclejdk7
 
 Supported aliases are:
 
+ * `oraclejdk8`
  * `oraclejdk7` or `jdk7` or `default`
  * `openjdk7`
  * `openjdk6` or `jdk6`
