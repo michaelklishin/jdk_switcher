@@ -24,7 +24,7 @@ jdk_switcher home oraclejdk7
 
 ### Commands
 
- * `use`: switches active JDK (updates `PATH` alternatives and export `JAVA_HOME`)
+ * `use`: switches active JDK (updates `PATH` alternatives and exports `JAVA_HOME`)
  * `home`: prints `JAVA_HOME` value for the specified JDK. Does not change anything in the environment.
 
 ### JDK aliases
