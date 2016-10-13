@@ -18,3 +18,5 @@ before_install:
   fi
 script:
 - ./runtests
+- git diff --exit-code
+- git diff --cached --exit-code
