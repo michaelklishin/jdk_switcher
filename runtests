@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+main() {
+  echo 'Running shellcheck'
+  git grep -l -E '^#!.+sh' | xargs shellcheck
+
+  echo 'Running shfmt'
+  shfmt -i 2 -w .
+}
+
+main "$@"
