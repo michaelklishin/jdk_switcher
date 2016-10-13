@@ -1,0 +1,22 @@
+language: bash
+cache:
+  directories:
+  - "${HOME}/bin"
+env:
+  global:
+  - PATH="${HOME}/bin:${HOME}/bin:${PATH}"
+  - SHELLCHECK_URL="https://s3.amazonaws.com/travis-blue-public/binaries/ubuntu/14.04/x86_64/shellcheck-0.4.4.tar.bz2"
+  - SHFMT_URL="https://github.com/mvdan/sh/releases/download/v0.1.0/shfmt_v0.1.0_linux_amd64"
+before_install:
+- mkdir -p "${HOME}/bin"
+- if ! shellcheck --version ; then
+    curl -sSL "${SHELLCHECK_URL}" | tar -C "${HOME}/bin" -xjf - ;
+  fi
+- if ! command -v shfmt ; then
+    curl -sSL "${SHFMT_URL}" -o "${HOME}/bin/shfmt" ;
+    chmod +x "${HOME}/bin/shfmt" ;
+  fi
+script:
+- ./runtests
+- git diff --exit-code
+- git diff --cached --exit-code
