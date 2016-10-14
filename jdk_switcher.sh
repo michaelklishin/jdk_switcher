@@ -6,81 +6,92 @@ else
     ARCH_SUFFIX=i386
 fi
 
-# UJA is for update-java-alternatives
-if [[ -d "/usr/lib/jvm/java-6-openjdk-$ARCH_SUFFIX" ]]; then
-    OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk-$ARCH_SUFFIX"
-    OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk-$ARCH_SUFFIX"
-else
-    OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk"
-    OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+: "${JDK_SWITCHER_DEFAULT:=openjdk8}"
+: "${UJA:=update-java-alternatives}"
+
+OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk"
+OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+if [[ -d "/usr/lib/jvm/java-6-openjdk-${ARCH_SUFFIX}" ]]; then
+    OPENJDK6_UJA_ALIAS="java-1.6.0-openjdk-${ARCH_SUFFIX}"
+    OPENJDK6_JAVA_HOME="/usr/lib/jvm/java-6-openjdk-${ARCH_SUFFIX}"
 fi
 
-if [[ -d "/usr/lib/jvm/java-7-openjdk-$ARCH_SUFFIX" ]]; then
-    OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk-$ARCH_SUFFIX"
-    OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk-$ARCH_SUFFIX"
-else
-    OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk"
-    OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk"
+OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk"
+OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk"
+if [[ -d "/usr/lib/jvm/java-7-openjdk-${ARCH_SUFFIX}" ]]; then
+    OPENJDK7_UJA_ALIAS="java-1.7.0-openjdk-${ARCH_SUFFIX}"
+    OPENJDK7_JAVA_HOME="/usr/lib/jvm/java-7-openjdk-${ARCH_SUFFIX}"
 fi
 
-if [[ -d "/usr/lib/jvm/java-8-openjdk-$ARCH_SUFFIX" ]]; then
-    OPENJDK8_UJA_ALIAS="java-1.8.0-openjdk-$ARCH_SUFFIX"
-    OPENJDK8_JAVA_HOME="/usr/lib/jvm/java-8-openjdk-$ARCH_SUFFIX"
-else
-    OPENJDK8_UJA_ALIAS="java-1.8.0-openjdk"
-    OPENJDK8_JAVA_HOME="/usr/lib/jvm/java-8-openjdk"
+OPENJDK8_UJA_ALIAS="java-1.8.0-openjdk"
+OPENJDK8_JAVA_HOME="/usr/lib/jvm/java-8-openjdk"
+if [[ -d "/usr/lib/jvm/java-8-openjdk-${ARCH_SUFFIX}" ]]; then
+    OPENJDK8_UJA_ALIAS="java-1.8.0-openjdk-${ARCH_SUFFIX}"
+    OPENJDK8_JAVA_HOME="/usr/lib/jvm/java-8-openjdk-${ARCH_SUFFIX}"
 fi
 
-# The java::oraclejdk7 recipe from github.com/travis-ci/travis-cookbooks
-# takes care of this alias. We take it for granted here. MK.
-if [[ -d "/usr/lib/jvm/java-7-oracle-$ARCH_SUFFIX" ]]; then
-    ORACLEJDK7_UJA_ALIAS="java-7-oracle-$ARCH_SUFFIX"
-    ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle-$ARCH_SUFFIX"
-else
-    ORACLEJDK7_UJA_ALIAS="java-7-oracle"
-    ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle"
+ORACLEJDK7_UJA_ALIAS="java-7-oracle"
+ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle"
+if [[ -d "/usr/lib/jvm/java-7-oracle-${ARCH_SUFFIX}" ]]; then
+    ORACLEJDK7_UJA_ALIAS="java-7-oracle-${ARCH_SUFFIX}"
+    ORACLEJDK7_JAVA_HOME="/usr/lib/jvm/java-7-oracle-${ARCH_SUFFIX}"
 fi
 
-# The java::oraclejdk8 recipe from github.com/travis-ci/travis-cookbooks
-# takes care of this alias. We take it for granted here. MK.
-if [[ -d "/usr/lib/jvm/java-8-oracle-$ARCH_SUFFIX" ]]; then
-    ORACLEJDK8_UJA_ALIAS="java-8-oracle-$ARCH_SUFFIX"
-    ORACLEJDK8_JAVA_HOME="/usr/lib/jvm/java-8-oracle-$ARCH_SUFFIX"
-else
-    ORACLEJDK8_UJA_ALIAS="java-8-oracle"
-    ORACLEJDK8_JAVA_HOME="/usr/lib/jvm/java-8-oracle"
+ORACLEJDK8_UJA_ALIAS="java-8-oracle"
+ORACLEJDK8_JAVA_HOME="/usr/lib/jvm/java-8-oracle"
+if [[ -d "/usr/lib/jvm/java-8-oracle-${ARCH_SUFFIX}" ]]; then
+    ORACLEJDK8_UJA_ALIAS="java-8-oracle-${ARCH_SUFFIX}"
+    ORACLEJDK8_JAVA_HOME="/usr/lib/jvm/java-8-oracle-${ARCH_SUFFIX}"
 fi
 
-UJA="update-java-alternatives"
+ORACLEJDK9_UJA_ALIAS="java-9-oracle"
+ORACLEJDK9_JAVA_HOME="/usr/lib/jvm/java-9-oracle"
+if [[ -d "/usr/lib/jvm/java-9-oracle-${ARCH_SUFFIX}" ]]; then
+    ORACLEJDK9_UJA_ALIAS="java-9-oracle-${ARCH_SUFFIX}"
+    ORACLEJDK9_JAVA_HOME="/usr/lib/jvm/java-9-oracle-${ARCH_SUFFIX}"
+fi
+
+for config_file in /etc/default/jdk-switcher "${HOME}/.jdk_switcherrc" "${JDK_SWITCHER_CONFIG}"; do
+    if [[ -f "${config_file}" ]]; then
+        # shellcheck source=/dev/null
+        source "${config_file}"
+    fi
+done
 
 switch_to_openjdk6() {
     echo "Switching to OpenJDK6 ($OPENJDK6_UJA_ALIAS), JAVA_HOME will be set to $OPENJDK6_JAVA_HOME"
-    sudo $UJA --set "$OPENJDK6_UJA_ALIAS"
+    sudo "${UJA}" --set "$OPENJDK6_UJA_ALIAS"
     export JAVA_HOME="$OPENJDK6_JAVA_HOME"
 }
 
 switch_to_openjdk7() {
     echo "Switching to OpenJDK7 ($OPENJDK7_UJA_ALIAS), JAVA_HOME will be set to $OPENJDK7_JAVA_HOME"
-    sudo $UJA --set "$OPENJDK7_UJA_ALIAS"
+    sudo "${UJA}" --set "$OPENJDK7_UJA_ALIAS"
     export JAVA_HOME="$OPENJDK7_JAVA_HOME"
 }
 
 switch_to_openjdk8() {
     echo "Switching to OpenJDK8 ($OPENJDK8_UJA_ALIAS), JAVA_HOME will be set to $OPENJDK8_JAVA_HOME"
-    sudo $UJA --set "$OPENJDK8_UJA_ALIAS"
+    sudo "${UJA}" --set "$OPENJDK8_UJA_ALIAS"
     export JAVA_HOME="$OPENJDK8_JAVA_HOME"
 }
 
 switch_to_oraclejdk7() {
     echo "Switching to Oracle JDK7 ($ORACLEJDK7_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK7_JAVA_HOME"
-    sudo $UJA --set "$ORACLEJDK7_UJA_ALIAS"
+    sudo "${UJA}" --set "$ORACLEJDK7_UJA_ALIAS"
     export JAVA_HOME="$ORACLEJDK7_JAVA_HOME"
 }
 
 switch_to_oraclejdk8() {
     echo "Switching to Oracle JDK8 ($ORACLEJDK8_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK8_JAVA_HOME"
-    sudo $UJA --set "$ORACLEJDK8_UJA_ALIAS"
+    sudo "${UJA}" --set "$ORACLEJDK8_UJA_ALIAS"
     export JAVA_HOME="$ORACLEJDK8_JAVA_HOME"
+}
+
+switch_to_oraclejdk9() {
+    echo "Switching to Oracle JDK9 ($ORACLEJDK9_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK9_JAVA_HOME"
+    sudo "${UJA}" --set "$ORACLEJDK9_UJA_ALIAS"
+    export JAVA_HOME="$ORACLEJDK9_JAVA_HOME"
 }
 
 print_home_of_openjdk6() {
@@ -101,6 +112,10 @@ print_home_of_oraclejdk7() {
 
 print_home_of_oraclejdk8() {
     echo "$ORACLEJDK8_JAVA_HOME"
+}
+
+print_home_of_oraclejdk9() {
+    echo "$ORACLEJDK9_JAVA_HOME"
 }
 
 warn_sunjdk6_eol() {
@@ -140,8 +155,11 @@ switch_jdk() {
         oraclejdk8 | oraclejdk1.8 | oraclejdk1.8.0 | oracle8 | oracle1.8.0 | oracle8.0)
             switch_to_oraclejdk8
             ;;
+        oraclejdk9 | oraclejdk1.9 | oraclejdk1.9.0 | oracle9 | oracle1.9.0 | oracle9.0)
+            switch_to_oraclejdk9
+            ;;
         default)
-            switch_to_oraclejdk7
+            "switch_to_${JDK_SWITCHER_DEFAULT}"
             ;;
         *)
             warn_jdk_not_known "$1"
@@ -176,8 +194,11 @@ print_java_home() {
         oraclejdk8 | oraclejdk1.8 | oraclejdk1.8.0 | oracle8 | oracle1.8.0 | oracle8.0)
             print_home_of_oraclejdk8
             ;;
+        oraclejdk9 | oraclejdk1.9 | oraclejdk1.9.0 | oracle9 | oracle1.9.0 | oracle9.0)
+            print_home_of_oraclejdk9
+            ;;
         default)
-            print_home_of_openjdk7
+            "print_home_of_${JDK_SWITCHER_DEFAULT}"
             ;;
         *)
             warn_jdk_not_known "$JDK"
@@ -198,7 +219,7 @@ jdk_switcher() {
             print_java_home "$JDK"
             ;;
         *)
-            echo "Usage: $0 {use|home} [ JDK version ]" >&2
+            echo "Usage: jdk_switcher {use|home} [ JDK version ]" >&2
             false
             ;;
     esac
