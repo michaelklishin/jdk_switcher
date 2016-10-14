@@ -1,4 +1,7 @@
 language: bash
+sudo: false
+dist: trusty
+group: beta
 cache:
   directories:
   - "${HOME}/bin"
