@@ -3,11 +3,24 @@
 set -o errexit
 
 main() {
+    "__runtests_${1:-lint}"
+}
+
+__runtests_help() {
+    echo 'Usage: runtests <lint|integration>'
+}
+
+__runtests_lint() {
     echo 'Running shellcheck'
-    git grep -l -E '^#!.+sh' | xargs shellcheck
+    git grep -l -E '^#!/usr/bin/env bash' | xargs shellcheck
 
     echo 'Running shfmt'
     shfmt -i 4 -w .
+}
+
+__runtests_integration() {
+    echo 'Running bats'
+    bats -t "$(git rev-parse --show-toplevel)/jdk_switcher.bats"
 }
 
 main "$@"

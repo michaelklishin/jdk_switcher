@@ -1,4 +1,7 @@
 language: bash
+sudo: false
+dist: trusty
+group: beta
 cache:
   directories:
   - "${HOME}/bin"
@@ -20,3 +23,4 @@ script:
 - ./runtests
 - git diff --exit-code
 - git diff --cached --exit-code
+- ./runtests integration
