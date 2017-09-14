@@ -51,6 +51,20 @@ if [[ -d "/usr/lib/jvm/java-9-oracle-${ARCH_SUFFIX}" ]]; then
     ORACLEJDK9_JAVA_HOME="/usr/lib/jvm/java-9-oracle-${ARCH_SUFFIX}"
 fi
 
+IBMJAVA8_UJA_ALIAS="java-8-ibm"
+IBMJAVA8_JAVA_HOME="/usr/lib/jvm/java-8-ibm"
+if [[ -d "/usr/lib/jvm/java-8-ibm-${ARCH_SUFFIX}" ]]; then
+    IBMJAVA8_UJA_ALIAS="java-8-ibm-${ARCH_SUFFIX}"
+    IBMJAVA8_JAVA_HOME="/usr/lib/jvm/java-8-ibm-${ARCH_SUFFIX}"
+fi
+
+IBMJAVA9_UJA_ALIAS="java-9-ibm"
+IBMJAVA9_JAVA_HOME="/usr/lib/jvm/java-9-ibm"
+if [[ -d "/usr/lib/jvm/java-9-ibm-${ARCH_SUFFIX}" ]]; then
+    IBMJAVA9_UJA_ALIAS="java-9-ibm-${ARCH_SUFFIX}"
+    IBMJAVA9_JAVA_HOME="/usr/lib/jvm/java-9-ibm-${ARCH_SUFFIX}"
+fi
+
 for config_file in /etc/default/jdk-switcher "${HOME}/.jdk_switcherrc" "${JDK_SWITCHER_CONFIG}"; do
     if [[ -f "${config_file}" ]]; then
         # shellcheck source=/dev/null
@@ -94,6 +108,18 @@ switch_to_oraclejdk9() {
     export JAVA_HOME="$ORACLEJDK9_JAVA_HOME"
 }
 
+switch_to_ibmjava8() {
+    echo "Switching to IBM JAVA8 ($IBMJAVA8_UJA_ALIAS), JAVA_HOME will be set to $IBMJAVA8_JAVA_HOME"
+    sudo "${UJA}" --set "$IBMJAVA8_UJA_ALIAS"
+    export JAVA_HOME="$IBMJAVA8_JAVA_HOME"
+}
+
+switch_to_ibmjava9() {
+    echo "Switching to IBM JAVA9 ($IBMJAVA9_UJA_ALIAS), JAVA_HOME will be set to $IBMJAVA9_JAVA_HOME"
+    sudo "${UJA}" --set "$IBMJAVA9_UJA_ALIAS"
+    export JAVA_HOME="$IBMJAVA9_JAVA_HOME"
+}
+
 print_home_of_openjdk6() {
     echo "$OPENJDK6_JAVA_HOME"
 }
@@ -116,6 +142,14 @@ print_home_of_oraclejdk8() {
 
 print_home_of_oraclejdk9() {
     echo "$ORACLEJDK9_JAVA_HOME"
+}
+
+print_home_of_ibmjava8() {
+    echo "$IBMJAVA8_JAVA_HOME"
+}
+
+print_home_of_ibmjava9() {
+    echo "$IBMJAVA9_JAVA_HOME"
 }
 
 warn_sunjdk6_eol() {
@@ -158,6 +192,12 @@ switch_jdk() {
         oraclejdk9 | oraclejdk1.9 | oraclejdk1.9.0 | oracle9 | oracle1.9.0 | oracle9.0)
             switch_to_oraclejdk9
             ;;
+        ibmjava8 | ibmjava1.8 | ibmjava1.8.0 | ibmjdk8 | ibmjdk1.8 | ibmjdk1.8.0 | ibm8 | ibm1.8.0 | ibm8.0)
+            switch_to_ibmjava8
+            ;;
+        ibmjava9 | ibmjava1.9 | ibmjava1.9.0 | ibmjdk9 | ibmjdk1.9 | ibmjdk1.9.0 | ibm9 | ibm1.9.0 | ibm9.0)
+            switch_to_ibmjava9
+            ;;
         default)
             "switch_to_${JDK_SWITCHER_DEFAULT}"
             ;;
@@ -196,6 +236,12 @@ print_java_home() {
             ;;
         oraclejdk9 | oraclejdk1.9 | oraclejdk1.9.0 | oracle9 | oracle1.9.0 | oracle9.0)
             print_home_of_oraclejdk9
+            ;;
+        ibmjava8 | ibmjava1.8 | ibmjava1.8.0 | ibmjdk8 | ibmjdk1.8 | ibmjdk1.8.0 | ibm8 | ibm1.8.0 | ibm8.0)
+            print_home_of_ibmjava8
+            ;;
+        ibmjava9 | ibmjava1.9 | ibmjava1.9.0 | ibmjdk9 | ibmjdk1.9 | ibmjdk1.9.0 | ibm9 | ibm1.9.0 | ibm9.0)
+            print_home_of_ibmjava9
             ;;
         default)
             "print_home_of_${JDK_SWITCHER_DEFAULT}"
