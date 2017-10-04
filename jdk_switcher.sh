@@ -103,8 +103,57 @@ switch_to_oraclejdk9() {
 
 switch_to_ibmjava8() {
     echo "Switching to IBM JAVA8 ($IBMJAVA8_UJA_ALIAS), JAVA_HOME will be set to $IBMJAVA8_JAVA_HOME"
-    sudo "${UJA}" --set "$IBMJAVA8_UJA_ALIAS"
+	jre=0
+    dir="$IBMJAVA8_JAVA_HOME/jre/bin"
+    if [ -d $dir ]; then
+		jre_entries=($(ls "$dir"))
+		jre=1
+		update_alternatives $dir jre_entries[@]
+    fi
+
+	dir="$IBMJAVA8_JAVA_HOME/bin"
+    if [ -d $dir ]; then
+		jdk_entries=($(ls "$dir"))
+
+		# If jre dir is present then remove duplicate binaries from bin dir
+		if [ $jre == 1 ]; then
+			unique_jdk_entries=()
+			for jdk_entry in "${jdk_entries[@]}"; do
+				found=0
+				for jre_entry in "${jre_entries[@]}"; do
+					if [ "$jdk_entry" == "$jre_entry" ]; then
+						found=1
+						break
+					fi
+				done
+				if [ $found == 0 ]; then
+                                    # shellcheck disable=SC2034
+				    unique_jdk_entries[i]=$jdk_entry
+				    i=$((i+1))
+				fi
+			done
+			update_alternatives $dir unique_jdk_entries[@]
+		else
+			update_alternatives $dir jdk_entries[@]
+		fi
+	fi
+
     export JAVA_HOME="$IBMJAVA8_JAVA_HOME"
+}
+
+update_alternatives() {
+    dir="$1"
+    priority=1
+
+    binaries=("${!2}")
+    for binary in "${binaries[@]}"; do
+        path="$dir/$binary"
+        if [[ "$binary" == "classic" ]] || [[ "$binary" == "j9vm" ]]; then
+			continue
+        fi
+		sudo update-alternatives --quiet --install "/usr/bin/$binary" "$binary" "$path" "$priority"
+        sudo update-alternatives --quiet --set "$binary" "$path"
+    done
 }
 
 print_home_of_openjdk6() {
