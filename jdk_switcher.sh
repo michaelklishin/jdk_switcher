@@ -103,21 +103,21 @@ switch_to_oraclejdk9() {
 
 switch_to_ibmjava8() {
     echo "Switching to IBM JAVA8 ($IBMJAVA8_UJA_ALIAS), JAVA_HOME will be set to $IBMJAVA8_JAVA_HOME"
-	jre=0	
+	jre=0
     dir="$IBMJAVA8_JAVA_HOME/jre/bin"
     if [ -d $dir ]; then
 		jre_entries=($(ls "$dir"))
 		jre=1
 		update_alternatives $dir jre_entries[@]
     fi
-	
-	dir="$IBMJAVA8_JAVA_HOME/bin"	
+
+	dir="$IBMJAVA8_JAVA_HOME/bin"
     if [ -d $dir ]; then
 		jdk_entries=($(ls "$dir"))
-		
+
 		# If jre dir is present then remove duplicate binaries from bin dir
-		if [ $jre == 1 ]; then	
-			unique_jdk_entries=()		
+		if [ $jre == 1 ]; then
+			unique_jdk_entries=()
 			for jdk_entry in "${jdk_entries[@]}"; do
 				found=0
 				for jre_entry in "${jre_entries[@]}"; do
@@ -127,16 +127,17 @@ switch_to_ibmjava8() {
 					fi
 				done
 				if [ $found == 0 ]; then
-					unique_jdk_entries[i]=$jdk_entry
-					i=$((i+1))                 
+                                    # shellcheck disable=SC2034
+				    unique_jdk_entries[i]=$jdk_entry
+				    i=$((i+1))
 				fi
 			done
 			update_alternatives $dir unique_jdk_entries[@]
-		else 
+		else
 			update_alternatives $dir jdk_entries[@]
 		fi
-	fi		
-    
+	fi
+
     export JAVA_HOME="$IBMJAVA8_JAVA_HOME"
 }
 
