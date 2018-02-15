@@ -124,14 +124,14 @@ update_jdk_entries() {
     jre=0
     dir="$java_home/jre/bin"
     if [ -d "$dir" ]; then
-        jre_entries=($(ls "$dir"))
+        jre_entries=("$(ls "$dir")")
         jre=1
         update_alternatives "$dir" "jre_entries[@]"
     fi
 
     dir="$java_home/bin"
     if [ -d "$dir" ]; then
-        jdk_entries=($(ls "$dir"))
+        jdk_entries=("$(ls "$dir")")
 
         # If jre dir is present then remove duplicate binaries from bin dir
         if [ $jre == 1 ]; then
