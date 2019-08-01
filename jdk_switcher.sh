@@ -51,6 +51,13 @@ if [[ -d "/usr/lib/jvm/java-9-oracle-${ARCH_SUFFIX}" ]]; then
     ORACLEJDK9_JAVA_HOME="/usr/lib/jvm/java-9-oracle-${ARCH_SUFFIX}"
 fi
 
+ORACLEJDK10_UJA_ALIAS="java-10-oracle"
+ORACLEJDK10_JAVA_HOME="/usr/lib/jvm/java-10-oracle"
+if [[ -d "/usr/lib/jvm/java-10-oracle-${ARCH_SUFFIX}" ]]; then
+    ORACLEJDK10_UJA_ALIAS="java-10-oracle-${ARCH_SUFFIX}"
+    ORACLEJDK10_JAVA_HOME="/usr/lib/jvm/java-10-oracle-${ARCH_SUFFIX}"
+fi
+
 IBMJAVA8_UJA_ALIAS="java-8-ibm"
 IBMJAVA8_JAVA_HOME="/usr/lib/jvm/java-8-ibm"
 if [[ -d "/usr/lib/jvm/java-8-ibm-${ARCH_SUFFIX}" ]]; then
@@ -106,6 +113,12 @@ switch_to_oraclejdk9() {
     echo "Switching to Oracle JDK9 ($ORACLEJDK9_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK9_JAVA_HOME"
     sudo "${UJA}" --set "$ORACLEJDK9_UJA_ALIAS"
     export JAVA_HOME="$ORACLEJDK9_JAVA_HOME"
+}
+
+switch_to_oraclejdk10() {
+    echo "Switching to Oracle JDK10 ($ORACLEJDK10_UJA_ALIAS), JAVA_HOME will be set to $ORACLEJDK10_JAVA_HOME"
+    sudo "${UJA}" --set "$ORACLEJDK10_UJA_ALIAS"
+    export JAVA_HOME="$ORACLEJDK10_JAVA_HOME"
 }
 
 switch_to_ibmjava8() {
@@ -197,6 +210,10 @@ print_home_of_oraclejdk9() {
     echo "$ORACLEJDK9_JAVA_HOME"
 }
 
+print_home_of_oraclejdk10() {
+    echo "$ORACLEJDK10_JAVA_HOME"
+}
+
 print_home_of_ibmjava8() {
     echo "$IBMJAVA8_JAVA_HOME"
 }
@@ -245,6 +262,9 @@ switch_jdk() {
         oraclejdk9 | oraclejdk1.9 | oraclejdk1.9.0 | oracle9 | oracle1.9.0 | oracle9.0)
             switch_to_oraclejdk9
             ;;
+        oraclejdk10 | oraclejdk1.10 | oraclejdk1.10.0 | oracle10 | oracle1.10.0 | oracle10.0)
+            switch_to_oraclejdk10
+            ;;
         ibmjava8 | ibmjava1.8 | ibmjava1.8.0 | ibmjdk8 | ibmjdk1.8 | ibmjdk1.8.0 | ibm8 | ibm1.8.0 | ibm8.0)
             switch_to_ibmjava8
             ;;
@@ -289,6 +309,9 @@ print_java_home() {
             ;;
         oraclejdk9 | oraclejdk1.9 | oraclejdk1.9.0 | oracle9 | oracle1.9.0 | oracle9.0)
             print_home_of_oraclejdk9
+            ;;
+        oraclejdk10 | oraclejdk1.10 | oraclejdk1.10.0 | oracle10 | oracle1.10.0 | oracle10.0)
+            print_home_of_oraclejdk10
             ;;
         ibmjava8 | ibmjava1.8 | ibmjava1.8.0 | ibmjdk8 | ibmjdk1.8 | ibmjdk1.8.0 | ibm8 | ibm1.8.0 | ibm8.0)
             print_home_of_ibmjava8
