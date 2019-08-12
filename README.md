@@ -68,7 +68,7 @@ Maven always use OpenJDK 6.
 
 MIT LICENSE
 
-Copyright (c) 2012-2016 Michael S. Klishin and Travis CI Development Team
+Copyright (c) 2012-2019 Michael S. Klishin and Travis CI Development Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
